@@ -1,0 +1,29 @@
+[build]
+  command = "bash netlify-build.sh"
+  publish = "build/web"
+
+[build.environment]
+  FLUTTER_CHANNEL = "stable"
+  # Pin Flutter version to a recent stable that bundles Dart >=3.9.x
+  FLUTTER_VERSION = "3.35.5"
+  # Optionally pin a specific Flutter version via FLUTTER_VERSION, e.g. 3.24.3
+  # FLUTTER_VERSION = "3.24.3"
+
+# Uncomment to set monorepo base if needed
+# [build]
+#   base = "."
+
+[headers]
+  # Ensure proper content type for WASM when served
+  for = "/sqlite3.wasm"
+  [headers.values]
+    Content-Type = "application/wasm"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/get-post"
+  to = "/.netlify/functions/get-post"
+  status = 200
